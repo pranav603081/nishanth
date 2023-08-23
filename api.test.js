@@ -35,7 +35,7 @@ describe('API Authentication Tests', () => {
         // const token = jwt.sign({ sub: 'user123' }, 'your-secret-key', { expiresIn: '1h' });
         // console.log("token",token);
 
-        const token = "hello"; 
+        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJ1c2VyMTIzIiwicm9sZXMiOlsidXNlciJdLCJpYXQiOjE2OTI3NjY0NjcsImV4cCI6MTY5Mjc3MDA2N30.ZkPFBRRkz5Qe4z8Cy6seMEu3SUuT8F4jnC1v7BONgLk"; 
 
         const response = await supertest(server.listener)
             .get('/sample_routes/v1/hello_world') // Replace with your route
