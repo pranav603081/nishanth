@@ -1,4 +1,4 @@
-export const cacheRoutes = [
+export const csvRoutes = [
     {
         method: 'POST',
         path: 'csv_routes/v1/save_csv_details',

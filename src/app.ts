@@ -19,7 +19,7 @@ server.route({
 
 });
 
-server.route(csv_routes);
+server.route(csv_routes.csvRoutes);
 
 server.start();
 console.log('Server running on 3045');
