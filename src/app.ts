@@ -22,3 +22,4 @@ server.start();
 console.log('Server running on 3045');
 }
 
+hapiRegisters();
