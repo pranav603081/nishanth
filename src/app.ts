@@ -1,4 +1,5 @@
 const hapi = require('@hapi/hapi');
+import csv_routes from './routes';
 
 export const hapiRegisters = async () => {
 const port = 3045;
