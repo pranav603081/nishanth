@@ -1,5 +1,12 @@
 export declare const csvRoutes: {
     method: string;
     path: string;
-    handler: (request: any) => Promise<string>;
+    options: {
+        payload: {
+            output: string;
+            parse: boolean;
+            allow: string;
+        };
+    };
+    handler: (request: any, h: any) => Promise<void>;
 }[];
