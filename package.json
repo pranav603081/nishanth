@@ -7,14 +7,16 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon --watch src/** --exec ts-node ./src/app.ts",
     "start": "npm run build",
-    "build": "tsc && node ./dist/app.js"
+    "build": "tsc && nodemon ./dist/app.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@hapi/hapi": "^21.3.2",
+    "@hapi/inert": "^7.1.0",
     "@types/node": "^20.5.4",
+    "csv-parser": "^3.0.0",
     "nodemon": "^3.0.1",
     "ts-node": "^10.9.1",
     "typescript": "^5.1.6"
