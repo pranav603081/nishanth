@@ -6,7 +6,8 @@ export declare const csvRoutes: {
             output: string;
             parse: boolean;
             allow: string;
+            multipart: boolean;
         };
     };
-    handler: (request: any, h: any) => Promise<void>;
+    handler: (request: any, h: any) => Promise<any>;
 }[];

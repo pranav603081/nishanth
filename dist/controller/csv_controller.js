@@ -1,15 +1,19 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.csvController = exports.CsvController = void 0;
+const services_1 = require("../services");
 class CsvController {
-    async updateCsvDetails(request) {
+    async updateCsvDetails(request, h) {
+        console.log("updateCsvDetails controller");
         try {
-            console.log("payload", request.payload);
-            return "hello world";
+            const data = request.payload;
+            const uploadedStream = data.file; // 'file' corresponds to the field name in the form
+            const csv_details = await services_1.csvServices.getCsvDetails(uploadedStream);
+            return h.response({ data: csv_details });
         }
         catch (err) {
             console.log("err", err);
-            return err;
+            throw err;
         }
     }
 }

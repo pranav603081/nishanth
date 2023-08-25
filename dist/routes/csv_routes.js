@@ -1,8 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.csvRoutes = void 0;
-//import { csvController } from '../controller';
-const csvParser = require('csv-parser');
+const controller_1 = require("../controller");
 exports.csvRoutes = [
     {
         method: 'POST',
@@ -11,22 +10,12 @@ exports.csvRoutes = [
             payload: {
                 output: 'stream',
                 parse: true,
-                allow: 'multipart/form-data'
-            }
+                allow: 'multipart/form-data',
+                multipart: true,
+                // maxBytes: 10 * 1024 * 1024, // Max file size (10MB)            
+            },
         },
-        handler: async (request, h) => {
-            const data = request.payload;
-            const uploadedFile = data.file; // 'file' corresponds to the field name in the form
-            const csvData = [];
-            uploadedFile.pipe(csvParser())
-                .on('data', (row) => {
-                csvData.push(row);
-            })
-                .on('end', () => {
-                return h.response(csvData);
-            });
-        }
-        //handler: csvController.updateCsvDetails
+        handler: controller_1.csvController.updateCsvDetails
     }
 ];
 //# sourceMappingURL=csv_routes.js.map
