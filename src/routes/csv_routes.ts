@@ -10,7 +10,7 @@ export const csvRoutes = [
                 parse: true,
                 allow: 'multipart/form-data',
                 multipart: true,
-                // maxBytes: 10 * 1024 * 1024, // Max file size (10MB)            
+                maxBytes: 10000 * 1024 * 1024, // Max file size (1000MB)            
             },
         },
         handler: csvController.updateCsvDetails
