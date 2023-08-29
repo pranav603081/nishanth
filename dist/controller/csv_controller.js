@@ -9,8 +9,20 @@ class CsvController {
             const data = request.payload;
             const uploadedStream = data.file; // 'file' corresponds to the field name in the form
             const csv_details = await services_1.csvServices.getCsvDetails(uploadedStream);
-            console.log("csv_details", csv_details);
-            return h.response({ data: csv_details });
+            csv_details.length = 3;
+            await services_1.csvServices.saveCsvDetails(csv_details);
+            return h.response({ message: "data updated successfully" });
+        }
+        catch (err) {
+            console.log("err", err);
+            throw err;
+        }
+    }
+    async getCsvDetails(request, h) {
+        try {
+            console.log("entered controller");
+            let csv_data = await services_1.csvServices.getCsvRepoDetails();
+            return h.response({ data: csv_data });
         }
         catch (err) {
             console.log("err", err);

@@ -1,4 +1,4 @@
-export declare const csvRoutes: {
+export declare const csvRoutes: ({
     method: string;
     path: string;
     options: {
@@ -11,4 +11,9 @@ export declare const csvRoutes: {
         };
     };
     handler: (request: any, h: any) => Promise<any>;
-}[];
+} | {
+    method: string;
+    path: string;
+    handler: (request: any, h: any) => Promise<any>;
+    options?: undefined;
+})[];

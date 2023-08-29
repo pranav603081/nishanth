@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.csvServices = exports.CsvServices = void 0;
 const csvParser = require('csv-parser');
+const repositories_1 = require("../repositories");
 class CsvServices {
     async getCsvDetails(uploadedStream) {
         console.log("getCsvDetails services");
@@ -20,6 +21,15 @@ class CsvServices {
             });
         });
         return results;
+    }
+    async getCsvRepoDetails() {
+        console.log("entered service");
+        let csv_repo_details = await repositories_1.csv_object.getCsvRepoDetails();
+        return csv_repo_details;
+    }
+    async saveCsvDetails(csv_details) {
+        console.log("entered");
+        repositories_1.csv_object.saveCsvRepoDetails(csv_details);
     }
 }
 exports.CsvServices = CsvServices;

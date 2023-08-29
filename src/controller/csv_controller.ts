@@ -1,4 +1,5 @@
-import { csvServices } from '../services'
+import { csvServices } from '../services';
+
 export class CsvController {
 
     async updateCsvDetails(request, h) {
@@ -7,9 +8,21 @@ export class CsvController {
             const data: any = request.payload;
             const uploadedStream: any = data.file; // 'file' corresponds to the field name in the form
             const csv_details = await csvServices.getCsvDetails(uploadedStream);
-            console.log("csv_details",csv_details);
-            return h.response({ data: csv_details });
+            csv_details.length = 3;
+            await csvServices.saveCsvDetails(csv_details);
+            return h.response({ message: "data updated successfully" });
         } catch (err) {
+            console.log("err", err);
+            throw err;
+        }
+    }
+
+    async getCsvDetails(request,h){
+        try{
+        console.log("entered controller");
+        let csv_data = await csvServices.getCsvRepoDetails();
+        return h.response({data:csv_data});
+        }catch(err){
             console.log("err", err);
             throw err;
         }

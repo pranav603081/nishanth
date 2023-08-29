@@ -21,13 +21,17 @@
 /// <reference types="mongoose/types/utility" />
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
-/// <reference types="mongoose" />
 /// <reference types="mongoose/types/inferschematype" />
-export declare class CsvServices {
-    getCsvDetails(uploadedStream: any): Promise<any[]>;
-    getCsvRepoDetails(): Promise<(import("mongoose").Document<unknown, {}, import("../model/csv_model").ICsv> & import("../model/csv_model").ICsv & {
-        _id: import("mongoose").Types.ObjectId;
-    })[]>;
-    saveCsvDetails(csv_details: any): Promise<void>;
+import { Schema } from 'mongoose';
+export interface ICsv {
+    address: string;
+    name: string;
+    index?: Number;
 }
-export declare const csvServices: CsvServices;
+export declare const csv_model: import("mongoose").Model<ICsv, {}, {}, {}, import("mongoose").Document<unknown, {}, ICsv> & ICsv & {
+    _id: import("mongoose").Types.ObjectId;
+}, Schema<ICsv, import("mongoose").Model<ICsv, any, any, any, import("mongoose").Document<unknown, any, ICsv> & ICsv & {
+    _id: import("mongoose").Types.ObjectId;
+}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, ICsv, import("mongoose").Document<unknown, {}, ICsv> & ICsv & {
+    _id: import("mongoose").Types.ObjectId;
+}>>;

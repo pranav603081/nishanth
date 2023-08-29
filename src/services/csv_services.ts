@@ -1,4 +1,5 @@
 const csvParser = require('csv-parser');
+import {csv_object} from '../repositories';
 
 export class CsvServices {
 
@@ -20,6 +21,19 @@ export class CsvServices {
                 });
         });
         return  results;
+    }
+
+    async getCsvRepoDetails(){
+      console.log("entered service");
+      let csv_repo_details = await csv_object.getCsvRepoDetails();
+      return csv_repo_details;
+
+    }
+
+    async saveCsvDetails(csv_details){
+        console.log("entered");
+        csv_object.saveCsvRepoDetails(csv_details);
+        
     }
 }
 

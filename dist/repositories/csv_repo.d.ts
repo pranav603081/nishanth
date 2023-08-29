@@ -23,11 +23,11 @@
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose" />
 /// <reference types="mongoose/types/inferschematype" />
-export declare class CsvServices {
-    getCsvDetails(uploadedStream: any): Promise<any[]>;
+declare class CsvRepository {
     getCsvRepoDetails(): Promise<(import("mongoose").Document<unknown, {}, import("../model/csv_model").ICsv> & import("../model/csv_model").ICsv & {
         _id: import("mongoose").Types.ObjectId;
     })[]>;
-    saveCsvDetails(csv_details: any): Promise<void>;
+    saveCsvRepoDetails(csv_details: any): Promise<void>;
 }
-export declare const csvServices: CsvServices;
+export declare const csv_object: CsvRepository;
+export {};

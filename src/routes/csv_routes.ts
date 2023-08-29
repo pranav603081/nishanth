@@ -15,5 +15,11 @@ export const csvRoutes = [
         },
         handler: csvController.updateCsvDetails
 
+    },
+    {
+        method: 'GET',
+        path: '/csv_routes/v1/get_csv_details',
+        handler: csvController.getCsvDetails
+
     }
 ];

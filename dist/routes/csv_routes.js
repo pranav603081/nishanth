@@ -16,6 +16,11 @@ exports.csvRoutes = [
             },
         },
         handler: controller_1.csvController.updateCsvDetails
+    },
+    {
+        method: 'GET',
+        path: '/csv_routes/v1/get_csv_details',
+        handler: controller_1.csvController.getCsvDetails
     }
 ];
 //# sourceMappingURL=csv_routes.js.map
