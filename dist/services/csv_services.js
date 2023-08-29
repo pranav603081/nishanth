@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.csvServices = exports.CsvServices = void 0;
 const csvParser = require('csv-parser');
+const fastcsv = require('fast-csv');
 const repositories_1 = require("../repositories");
 class CsvServices {
     async getCsvDetails(uploadedStream) {
@@ -21,6 +22,23 @@ class CsvServices {
             });
         });
         return results;
+    }
+    async getCsvDetails_v2(uploadedStream) {
+        console.log("getCsvDetails services");
+        const parsedRows = [];
+        const csvStream = fastcsv.parse({ headers: true })
+            .on('data', (row) => {
+            // Process each row here
+            parsedRows.push(row);
+        })
+            .on('end', () => {
+            console.log('CSV parsing finished.');
+        });
+        uploadedStream.pipe(csvStream);
+        await new Promise((resolve) => {
+            uploadedStream.on('end', resolve);
+        });
+        return parsedRows;
     }
     async getCsvRepoDetails() {
         console.log("entered service");

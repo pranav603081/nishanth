@@ -9,7 +9,14 @@ class CsvRepository {
         return await csv_model_1.csv_model.find({});
     }
     async saveCsvRepoDetails(csv_details) {
-        await csv_model_1.csv_model.insertMany(csv_details);
+        let bulkOperations = csv_details.map(csv_data => ({
+            updateOne: {
+                filter: { name: csv_data.name },
+                update: { $set: csv_data },
+                upsert: true
+            }
+        }));
+        await csv_model_1.csv_model.bulkWrite(bulkOperations);
     }
 }
 exports.csv_object = new CsvRepository();

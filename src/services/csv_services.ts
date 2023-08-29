@@ -1,5 +1,6 @@
 const csvParser = require('csv-parser');
-import {csv_object} from '../repositories';
+const fastcsv = require('fast-csv');
+import { csv_object } from '../repositories';
 
 export class CsvServices {
 
@@ -20,20 +21,41 @@ export class CsvServices {
                     reject(error);
                 });
         });
-        return  results;
+        return results;
     }
 
-    async getCsvRepoDetails(){
-      console.log("entered service");
-      let csv_repo_details = await csv_object.getCsvRepoDetails();
-      return csv_repo_details;
+    async getCsvDetails_v2(uploadedStream) {
+        console.log("getCsvDetails services");
+        const parsedRows: any[] = [];
+        const csvStream = fastcsv.parse({ headers: true })
+            .on('data', (row) => {
+                // Process each row here
+                parsedRows.push(row);
+            })
+            .on('end', () => {
+                console.log('CSV parsing finished.');
+            });
+
+        uploadedStream.pipe(csvStream);
+
+        await new Promise((resolve) => {
+            uploadedStream.on('end', resolve);
+        });
+
+        return parsedRows;
+    }
+
+    async getCsvRepoDetails() {
+        console.log("entered service");
+        let csv_repo_details = await csv_object.getCsvRepoDetails();
+        return csv_repo_details;
 
     }
 
-    async saveCsvDetails(csv_details){
+    async saveCsvDetails(csv_details) {
         console.log("entered");
         csv_object.saveCsvRepoDetails(csv_details);
-        
+
     }
 }
 
