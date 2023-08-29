@@ -2,21 +2,26 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.csvController = exports.CsvController = void 0;
 const services_1 = require("../services");
+//const { extname } = require('path')
 class CsvController {
     async updateCsvDetails(request, h) {
         console.log("updateCsvDetails controller");
         try {
-            // const data: any = request.payload;
-            // const uploadedStream: any = data.file; // 'file' corresponds to the field name in the form
-            // const csv_details = await csvServices.getCsvDetails_v2(uploadedStream);
+            const data = request.payload;
+            let file_name = data.file.hapi.filename;
+            const file_extension = file_name.substr(file_name.lastIndexOf('.')).toLowerCase();
+            if (file_extension != ".csv")
+                return h.response({ message: "please upload csv file" }).code(400);
+            //const uploadedStream: any = data.file; // 'file' corresponds to the field name in the form
+            //const csv_details = await csvServices.getCsvDetails_v2(uploadedStream);
             // csv_details.length = 3;
             let csv_details = [{ name: "sharu", address: "pune" }, { name: "nishanth", address: "banglore" }];
-            await services_1.csvServices.saveCsvDetails(csv_details);
-            return h.response({ message: "data updated successfully", data: csv_details });
+            //await csvServices.saveCsvDetails(csv_details);
+            return h.response({ message: "data updated successfully", data: csv_details }).code(200);
         }
         catch (err) {
             console.log("err", err);
-            throw err;
+            return h.response({ message: "something went wrong" }).code(500);
         }
     }
     async getCsvDetails(request, h) {
