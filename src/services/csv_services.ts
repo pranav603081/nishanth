@@ -139,9 +139,9 @@ export class CsvServices {
 
     }
 
-    async getCsvRepoDetails() {
+    async getCsvRepoDetails(filter) {
         console.log("entered service");
-        let csv_repo_details = await csv_object.getCsvRepoDetails();
+        let csv_repo_details = await csv_object.getCsvRepoDetails(filter);
         return csv_repo_details;
 
     }

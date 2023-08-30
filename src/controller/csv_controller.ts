@@ -46,7 +46,12 @@ export class CsvController {
     async getCsvDetails(request, h) {
         try {
             console.log("entered controller");
-            let csv_data = await csvServices.getCsvRepoDetails();
+            const filter: any = {};
+            console.log("filter",filter);
+            if (request.query.postcode) 
+                filter.postcode = request.query.postcode;
+            
+            let csv_data = await csvServices.getCsvRepoDetails(filter);
             return h.response({ data: csv_data });
         } catch (err) {
             console.log("err", err);

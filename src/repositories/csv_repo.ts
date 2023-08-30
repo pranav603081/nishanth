@@ -4,9 +4,9 @@ import { csv_model } from "../model/csv_model";
 class CsvRepository {
     // private model = csv_model;
 
-    public async getCsvRepoDetails() {
+    public async getCsvRepoDetails(filter) {
         console.log("entered query repo"); 
-        return await csv_model.find({});
+        return await csv_model.find(filter);
     }
 
     public async saveCsvRepoDetails(csv_details){
