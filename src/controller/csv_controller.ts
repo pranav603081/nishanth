@@ -52,10 +52,11 @@ export class CsvController {
                 filter.postcode = request.query.postcode;
             
             let csv_data = await csvServices.getCsvRepoDetails(filter);
-            return h.response({ data: csv_data });
+            let message = csv_data.length ? "data found": "data unanvailable";
+            return h.response({ message: message, data: csv_data }).code(200);
         } catch (err) {
             console.log("err", err);
-            throw err;
+            return h.response({ message: "something went wrong" }).code(500);
         }
     }
 }
