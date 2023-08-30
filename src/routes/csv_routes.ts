@@ -21,5 +21,20 @@ export const csvRoutes = [
         path: '/csv_routes/v1/get_csv_details',
         handler: csvController.getCsvDetails
 
+    },
+    {
+        method: 'POST',
+        path: '/csv_routes/v2/save_csv_details',
+        options: {
+            payload: {
+                output: 'stream',
+                parse: true,
+                allow: 'multipart/form-data',
+                multipart: true,
+                maxBytes: 10000 * 1024 * 1024, // Max file size (1000MB)            
+            },
+        },
+        handler: csvController.updateCsvDetails_v2
+
     }
 ];

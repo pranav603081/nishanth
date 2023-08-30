@@ -12,7 +12,7 @@ class CsvRepository {
     public async saveCsvRepoDetails(csv_details){
         let bulkOperations = csv_details.map(csv_data => ({
             updateOne:{
-                filter: {name: csv_data.name},
+                filter: {postcode: csv_data.postcode},
                 update: { $set: csv_data },
                 upsert: true
             }

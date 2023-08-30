@@ -26,6 +26,7 @@
 export declare class CsvServices {
     getCsvDetails(uploadedStream: any): Promise<any[]>;
     getCsvDetails_v2(uploadedStream: any): Promise<any[]>;
+    getCsvDetails_v3(uploadedStream: any): Promise<any[]>;
     getCsvRepoDetails(): Promise<(import("mongoose").Document<unknown, {}, import("../model/csv_model").ICsv> & import("../model/csv_model").ICsv & {
         _id: import("mongoose").Types.ObjectId;
     })[]>;
