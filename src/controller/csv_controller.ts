@@ -32,11 +32,14 @@ export class CsvController {
             if (file_extension != ".csv")
                 return h.response({ message: "please upload csv file" }).code(400);
 
-            // const uploadedStream: any = data.file; // 'file' corresponds to the field name in the form
-            const csv_details = await csvServices.getCsvDetails_v3(request.payload);
-            // csv_details.length = 3;
-            //await csvServices.saveCsvDetails(csv_details);
-            return h.response({ message: "data updated successfully", data: csv_details }).code(200);
+            await csvServices.saveCsvFile(request.payload);
+            const chunkSize = 1000000; // Number of lines per chunk
+
+            await csvServices.createChunk(chunkSize);
+            await csvServices.saveCsvDetails_v2();
+            await csvServices.deleteFiles();
+
+            return h.response({ message: "data updated successfully"}).code(200);
         } catch (err) {
             console.log("err", err);
             return h.response({ message: "something went wrong" }).code(500);
@@ -47,12 +50,12 @@ export class CsvController {
         try {
             console.log("entered controller");
             const filter: any = {};
-            console.log("filter",filter);
-            if (request.query.postcode) 
+            console.log("filter", filter);
+            if (request.query.postcode)
                 filter.postcode = request.query.postcode;
-            
+
             let csv_data = await csvServices.getCsvRepoDetails(filter);
-            let message = csv_data.length ? "data found": "data unanvailable";
+            let message = csv_data.length ? "data found" : "data unanvailable";
             return h.response({ message: message, data: csv_data }).code(200);
         } catch (err) {
             console.log("err", err);

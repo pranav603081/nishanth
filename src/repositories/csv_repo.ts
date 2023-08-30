@@ -10,6 +10,7 @@ class CsvRepository {
     }
 
     public async saveCsvRepoDetails(csv_details){
+        console.log("csv_details",csv_details);
         let bulkOperations = csv_details.map(csv_data => ({
             updateOne:{
                 filter: {postcode: csv_data.postcode},
