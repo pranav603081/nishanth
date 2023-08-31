@@ -233,7 +233,7 @@ export class CsvServices {
 
             let csv_details = await getCsvDetailsByFile(fileName);
             console.log("csv_details", csv_details);
-            //await csv_object.saveCsvRepoDetails(csv_details);
+            await csv_object.saveCsvRepoDetails(csv_details);
 
         }
 
