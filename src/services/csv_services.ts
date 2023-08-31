@@ -5,6 +5,7 @@ import * as readline from 'readline';
 import fs from 'fs';
 import path from 'path';
 import { csv_object } from '../repositories';
+import {uploadDirectory,chunkDirectory} from '../constants'
 
 export class CsvServices {
 
@@ -61,9 +62,9 @@ export class CsvServices {
     // create csv form data in upload directory
     async saveCsvFile(request) {
         const { file } = request; // Assuming the payload field is named 'file'
-        const subdirectory = 'uploads'; // Name of the subdirectory
+        //const subdirectory = 'uploads'; // Name of the subdirectory
         const filename = file.hapi.filename; // Extract the original filename
-        const subdirectoryPath = path.join(__dirname, subdirectory);
+        const subdirectoryPath = path.join(__dirname, uploadDirectory);
         const filePath = path.join(subdirectoryPath, filename);
         if (!fs.existsSync(subdirectoryPath)) {
             fs.mkdirSync(subdirectoryPath);
@@ -76,77 +77,11 @@ export class CsvServices {
         });
     }
 
-    // async createChunk(chunkSize) {
-
-    //     const inputFolderPath = path.join(__dirname, "uploads");
-    //     const outputDirectory = path.join(__dirname, "chunks");
-
-    //     //console.log("inputFolderPath",inputFolderPath);
-    //     // Create the output directory if it doesn't exist
-    //     if (!fs.existsSync(outputDirectory)) {
-    //         fs.mkdirSync(outputDirectory);
-    //     }
-    //     // Read and process each CSV file in the input folder
-    //     fs.readdir(inputFolderPath, (err: NodeJS.ErrnoException | null, files: string[]) => {
-    //         if (err) {
-    //             console.error('Error reading input folder:', err);
-    //             return;
-    //         }
-
-    //         files.forEach((file: string, fileIndex: number) => {
-    //             if (file.endsWith('.csv')) {
-    //                 const inputFilePath: string = path.join(inputFolderPath, file);
-    //                 //console.log("inputFilePath",inputFilePath);
-    //                 processCsvFile(inputFilePath, fileIndex);
-    //             }
-    //         });
-    //     });
-
-    //     function processCsvFile(inputFilePath: string, fileIndex: number): void {
-    //         const inputStream: fs.ReadStream = fs.createReadStream(inputFilePath);
-    //         const rl: readline.Interface = readline.createInterface({
-    //             input: inputStream,
-    //             crlfDelay: Infinity
-    //         });
-
-    //         let chunkIndex: number = 0;
-    //         let lines: string[] = [];
-
-    //         rl.on('line', (line: string) => {
-    //             lines.push(line);
-    //             if (lines.length >= chunkSize) {
-    //                 saveChunk(lines.slice(), fileIndex, chunkIndex);
-    //                 lines = [];
-    //                 chunkIndex++;
-    //             }
-    //         });
-
-    //         rl.on('close', () => {
-    //             if (lines.length > 0) {
-    //                 saveChunk(lines, fileIndex, chunkIndex);
-    //             }
-    //         });
-    //     }
-
-    //     function saveChunk(chunkLines: string[], fileIndex: number, chunkIndex: number): void {
-    //         const chunkFilePath: string = path.join(outputDirectory, `file${fileIndex}_chunk${chunkIndex}.csv`);
-    //         const chunkData: string = chunkLines.join('\n') + '\n';
-
-    //         fs.writeFile(chunkFilePath, chunkData, (writeErr: NodeJS.ErrnoException | null) => {
-    //             if (writeErr) {
-    //                 console.error('Error writing chunk file:', writeErr);
-    //             } else {
-    //                 //console.log(`Chunk ${chunkIndex} of file ${fileIndex} written to ${chunkFilePath}`);
-    //             }
-    //         });
-    //     }
-    // }
-
     // create chunk directory and chunk files from csv
     async createChunk(chunkSize) {
 
-        const inputFolderPath = path.join(__dirname, "uploads");
-        const outputDirectory = path.join(__dirname, "chunks");
+        const inputFolderPath = path.join(__dirname, uploadDirectory);
+        const outputDirectory = path.join(__dirname, chunkDirectory);
 
         //console.log("inputFolderPath",inputFolderPath);
         // Create the output directory if it doesn't exist
@@ -209,7 +144,7 @@ export class CsvServices {
     async saveCsvDetails_v2() {
         console.log("entered");
         //await csv_object.saveCsvRepoDetails(csv_details);
-        const outputDirectory = path.join(__dirname, "chunks");
+        const outputDirectory = path.join(__dirname, chunkDirectory);
         // Read and process each CSV file in the input folder
         const filesArray = await fs.promises.readdir(outputDirectory);
         //console.log("files",filesArray);
@@ -239,7 +174,7 @@ export class CsvServices {
 
         //using fast-csv
         async function getCsvDetailsByFile(fileName) {
-            const outputDirectory = path.join(__dirname, "chunks");
+            const outputDirectory = path.join(__dirname, chunkDirectory);
             const filePath = path.join(outputDirectory, fileName);
             console.log("getCsvDetails services", filePath);
 
@@ -269,8 +204,8 @@ export class CsvServices {
     }
 
     async deleteFiles() {
-        const uploads_directory_path = path.join(__dirname, "uploads");
-        const chunks_directory_path = path.join(__dirname, "chunks");
+        const uploads_directory_path = path.join(__dirname, uploadDirectory);
+        const chunks_directory_path = path.join(__dirname, chunkDirectory);
 
         await deleteDirectoryIfExists(uploads_directory_path);
         await deleteDirectoryIfExists(chunks_directory_path);

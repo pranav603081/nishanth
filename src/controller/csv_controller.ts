@@ -1,4 +1,5 @@
 import { csvServices } from '../services';
+import {chunkSize} from '../constants/';
 //const { extname } = require('path')
 export class CsvController {
 
@@ -13,8 +14,6 @@ export class CsvController {
 
             const uploadedStream: any = data.file; // 'file' corresponds to the field name in the form
             const csv_details = await csvServices.getCsvDetails_v2(uploadedStream);
-            //csv_details.length = 3;
-            //let csv_details = [{ name: "sharu", address: "pune" }, { name: "nishanth", address: "banglore" }];
             await csvServices.saveCsvDetails(csv_details);
             return h.response({ message: "data updated successfully", data: csv_details }).code(200);
         } catch (err) {
@@ -33,7 +32,7 @@ export class CsvController {
                 return h.response({ message: "please upload csv file" }).code(400);
 
             await csvServices.saveCsvFile(request.payload);
-            const chunkSize = 1000000; // Number of lines per chunk
+            //console.log("chunkSize",chunkSize); // Number of lines per chunk
 
             await csvServices.createChunk(chunkSize);
             await csvServices.saveCsvDetails_v2();
