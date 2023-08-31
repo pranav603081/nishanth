@@ -1,5 +1,6 @@
 import { csvServices } from '../services';
-import {chunkSize} from '../constants/';
+import {chunkSize,successStatus,successCode,noContentCode,successStatusMessage,failureCode,failureStatus } from '../constants/';
+import {BaseController} from './base_controller'
 //const { extname } = require('path')
 export class CsvController {
 
@@ -54,11 +55,11 @@ export class CsvController {
                 filter.postcode = request.query.postcode;
 
             let csv_data = await csvServices.getCsvRepoDetails(filter);
-            let message = csv_data.length ? "data found" : "data unanvailable";
-            return h.response({ message: message, data: csv_data }).code(200);
+            let code = csv_data.length ? successCode : noContentCode;
+            return BaseController.handleSuccess(successStatusMessage, csv_data,successStatus,code);
         } catch (err) {
             console.log("err", err);
-            return h.response({ message: "something went wrong" }).code(500);
+            return BaseController.handleError(failureStatus, failureCode,err);
         }
     }
 }
