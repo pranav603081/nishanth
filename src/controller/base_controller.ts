@@ -23,7 +23,7 @@ export abstract class BaseController {
 
     static handleError(failureStatus, failureCode, err) {
         console.log("handle error");
-        const customError = Boom.boomify(new Error(err.message || "something went wrong"), { statusCode: failureCode });
+        const customError = Boom.boomify(new Error(err), { statusCode: failureCode });
 
         // Adding custom properties to the payload
         customError.output.payload = {

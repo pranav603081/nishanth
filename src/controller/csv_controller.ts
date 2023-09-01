@@ -1,8 +1,12 @@
 import { csvServices } from '../services';
-import {chunkSize,successStatus,successCode,noContentCode,successStatusMessage,failureCode,failureStatus } from '../constants/';
-import {BaseController} from './base_controller'
+import { chunkSize, successStatus, successCode, noContentCode, successStatusMessage, failureCode, failureStatus, badRequestCode, badRequestMessage } from '../constants/';
+import { BaseController } from './base_controller'
 //const { extname } = require('path')
-export class CsvController {
+export class CsvController extends BaseController{
+    public constructor()
+    {
+        super();
+    }
 
     async updateCsvDetails(request, h) {
         console.log("updateCsvDetails controller");
@@ -11,15 +15,19 @@ export class CsvController {
             let file_name = data.file.hapi.filename;
             const file_extension = file_name.substr(file_name.lastIndexOf('.')).toLowerCase();
             if (file_extension != ".csv")
-                return h.response({ message: "please upload csv file" }).code(400);
+                return BaseController.handleError(failureStatus, badRequestCode, badRequestMessage);
+            //return h.response({ message: "please upload csv file" }).code(400);
 
             const uploadedStream: any = data.file; // 'file' corresponds to the field name in the form
             const csv_details = await csvServices.getCsvDetails_v2(uploadedStream);
             await csvServices.saveCsvDetails(csv_details);
-            return h.response({ message: "data updated successfully", data: csv_details }).code(200);
+            return BaseController.handleSuccess(successStatusMessage, [], successStatus, successCode);
+
+            // return h.response({ message: "data updated successfully", data: csv_details }).code(200);
         } catch (err) {
             console.log("err", err);
-            return h.response({ message: "something went wrong" }).code(500);
+            return BaseController.handleError(failureStatus, failureCode, err);
+            // return h.response({ message: "something went wrong" }).code(500);
         }
     }
 
@@ -30,7 +38,9 @@ export class CsvController {
             let file_name = data.file.hapi.filename;
             const file_extension = file_name.substr(file_name.lastIndexOf('.')).toLowerCase();
             if (file_extension != ".csv")
-                return h.response({ message: "please upload csv file" }).code(400);
+                return BaseController.handleError(failureStatus, badRequestCode, badRequestMessage);
+
+            // return h.response({ message: "please upload csv file" }).code(400);
 
             await csvServices.saveCsvFile(request.payload);
             //console.log("chunkSize",chunkSize); // Number of lines per chunk
@@ -38,11 +48,14 @@ export class CsvController {
             await csvServices.createChunk(chunkSize);
             await csvServices.saveCsvDetails_v2();
             await csvServices.deleteFiles();
+            return BaseController.handleSuccess(successStatusMessage, [], successStatus, successCode);
 
-            return h.response({ message: "data updated successfully"}).code(200);
+            //return h.response({ message: "data updated successfully"}).code(200);
         } catch (err) {
             console.log("err", err);
-            return h.response({ message: "something went wrong" }).code(500);
+            // return h.response({ message: "something went wrong" }).code(500);
+            return BaseController.handleError(failureStatus, failureCode, err);
+
         }
     }
 
@@ -56,10 +69,10 @@ export class CsvController {
 
             let csv_data = await csvServices.getCsvRepoDetails(filter);
             let code = csv_data.length ? successCode : noContentCode;
-            return BaseController.handleSuccess(successStatusMessage, csv_data,successStatus,code);
+            return BaseController.handleSuccess(successStatusMessage, csv_data, successStatus, code);
         } catch (err) {
             console.log("err", err);
-            return BaseController.handleError(failureStatus, failureCode,err);
+            return BaseController.handleError(failureStatus, failureCode, err);
         }
     }
 }
