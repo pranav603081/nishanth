@@ -11,7 +11,7 @@ export interface ICsv {
 const csvSchema = new Schema<ICsv>({
     address: { type: String, required: true },
     postcode: { type: String, required: true }
-});
+},{timestamps: true});
 
 export const csv_model = model('csv', csvSchema);
 

@@ -26,7 +26,7 @@ export class CsvController extends BaseController{
             // return h.response({ message: "data updated successfully", data: csv_details }).code(200);
         } catch (err) {
             console.log("err", err);
-            return BaseController.handleError(failureStatus, failureCode, err);
+            return BaseController.handleError(failureStatus, failureCode, err.message);
             // return h.response({ message: "something went wrong" }).code(500);
         }
     }
