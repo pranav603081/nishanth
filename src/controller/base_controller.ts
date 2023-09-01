@@ -4,7 +4,7 @@ import Boom from '@hapi/boom';
 interface CustomPayload extends Boom.Payload {
     status: string;
     message: string;
-    errors: string[];
+    errors: string;
     code: number;
 }
 
@@ -28,8 +28,8 @@ export abstract class BaseController {
         // Adding custom properties to the payload
         customError.output.payload = {
             status: failureStatus,
-            message: customError.message,
-            errors: ['Server error/request error'],
+            message: 'Server error/request error',
+            errors: customError.message,
             code: customError.output.statusCode,
         } as CustomPayload;;
 
