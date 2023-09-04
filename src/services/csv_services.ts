@@ -5,7 +5,7 @@ import * as readline from 'readline';
 import fs from 'fs';
 import path from 'path';
 import { csv_object } from '../repositories';
-import {uploadDirectory,chunkDirectory} from '../constants'
+import { uploadDirectory, chunkDirectory } from '../constants'
 
 export class CsvServices {
 
@@ -111,21 +111,27 @@ export class CsvServices {
 
             let chunkIndex: number = 0;
             let lines: string[] = [];
+            let header: string | "" = "";
 
             for await (const line of rl) {
-                lines.push(line);
-                // rl.on('line', (line: string) => {
-                //     lines.push(line);
-                if (lines.length >= chunkSize) {
-                    await saveChunk(lines.slice(), chunkIndex);
-                    lines = [];
-                    chunkIndex++;
+                if (header === null) {
+                    // Save the header row
+                    header = line;
+                } else {
+                    lines.push(line);
+                    // rl.on('line', (line: string) => {
+                    //     lines.push(line);
+                    if (lines.length >= chunkSize) {
+                        await saveChunk([header, ...lines], chunkIndex);
+                        lines = [];
+                        chunkIndex++;
+                    }
                 }
             };
 
 
             if (lines.length > 0) {
-                await saveChunk(lines, chunkIndex);
+                await saveChunk([header, ...lines], chunkIndex);
             }
             console.log(`Chunk files created for ${inputFilePath}`);
 
