@@ -111,10 +111,10 @@ export class CsvServices {
 
             let chunkIndex: number = 0;
             let lines: string[] = [];
-            let header: string | "" = "";
+            let header: string = "";
 
             for await (const line of rl) {
-                if (header === null) {
+                if (header === "") {
                     // Save the header row
                     header = line;
                 } else {
@@ -148,7 +148,7 @@ export class CsvServices {
 
     // save csv records using chunk files
     async saveCsvDetails_v2() {
-        console.log("entered");
+        console.log("entered saveCsvDetails_v2");
         //await csv_object.saveCsvRepoDetails(csv_details);
         const outputDirectory = path.join(__dirname, chunkDirectory);
         // Read and process each CSV file in the input folder
@@ -173,7 +173,8 @@ export class CsvServices {
             console.log(`Processing file: ${fileName}`);
 
             let csv_details = await getCsvDetailsByFile(fileName);
-            console.log("csv_details", csv_details);
+            //csv_details.length = 100000;
+            console.log("csv_details needs to be saved in collection");
             await csv_object.saveCsvRepoDetails(csv_details);
 
         }

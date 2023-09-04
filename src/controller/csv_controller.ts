@@ -1,5 +1,5 @@
 import { csvServices } from '../services';
-import { chunkSize, successStatus, successCode, noContentCode, successStatusMessage, failureCode, failureStatus, badRequestCode, badRequestMessage } from '../constants/';
+import {  chunkSize, successStatus, successCode, noContentCode, successStatusMessage, failureCode, failureStatus, badRequestCode, badRequestMessage } from '../constants/';
 import { BaseController } from './base_controller'
 //const { extname } = require('path')
 export class CsvController extends BaseController{
@@ -40,17 +40,11 @@ export class CsvController extends BaseController{
             if (file_extension != ".csv")
                 return BaseController.handleError(failureStatus, badRequestCode, badRequestMessage);
 
-            // return h.response({ message: "please upload csv file" }).code(400);
-
             await csvServices.saveCsvFile(request.payload);
-            //console.log("chunkSize",chunkSize); // Number of lines per chunk
-
             await csvServices.createChunk(chunkSize);
             await csvServices.saveCsvDetails_v2();
             await csvServices.deleteFiles();
             return BaseController.handleSuccess(successStatusMessage, [], successStatus, successCode);
-
-            //return h.response({ message: "data updated successfully"}).code(200);
         } catch (err) {
             console.log("err", err);
             // return h.response({ message: "something went wrong" }).code(500);
